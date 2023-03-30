@@ -1,0 +1,30 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: over-prev-role
+rules:
+rules:
+- apiGroups: ["*"]
+  resources: ["*"]
+  verbs: ["*"]
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: over-prev-service-account
+  namespace: wiz
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: over-prev-rolebinding
+  namespace: wiz 
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: over-prev-role
+subjects:
+- namespace: wiz 
+  kind: ServiceAccount
+  name: over-prev-service-account

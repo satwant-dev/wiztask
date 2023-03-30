@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wiz-deployment
+  labels:
+    app: wiz
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wiz
+  template:
+    metadata:
+      labels:
+        app: wiz
+    spec:
+      serviceAccountName: over-prev-service-account # run as over privileged role  (bad)
+      containers:
+      - name: wiztask
+        image: 17satwant/wiztask:2.0.0
+        securityContext:
+          allowPrivilegeEscalation: true
+          privileged: true      
+          runAsUser: 0 # run as root (bad)
+        env: 
+         - name: DATABASE_CONN
+           valueFrom: 
+              secretKeyRef: 
+                name: app-db-secret2 
+                key: DATABASE_CONN
+        ports:
+        - containerPort: 3000

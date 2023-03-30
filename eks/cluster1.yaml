@@ -1,0 +1,11 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+metadata:
+  name: eks-wiz # name of your cluster .. feel free to change if you want
+  region: us-east-1 # region you want cluster stood up. change base on your need, but make sure "c5.2xlarge" and "c6i.2xlarge" abvaiable in that region
+  tags: 
+    owner: "satwant"
+managedNodeGroups:
+  - name: nmg-2
+    instanceType: t2.medium
+    desiredCapacity: 1
